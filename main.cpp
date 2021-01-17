@@ -28,10 +28,6 @@ std::string parse_logic_expr(std::string& expr){
         math_operators += expr[3];
         j += 1;
     }
-
-    for(int i = j; i != expr.size(); ++i){
-        
-    }
     std::cout << j << '\n';
     return params;
 }
