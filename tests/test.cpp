@@ -52,3 +52,7 @@ BOOST_AUTO_TEST_CASE(has_symbol_test_8){
     std::string test_symbol = "x";
     BOOST_CHECK(has_symbol(test_symbol[0]) == false);
 }
+
+BOOST_AUTO_TEST_CASE(has_symbol_test_9){
+    BOOST_CHECK(has_symbol('%') == false);
+}
