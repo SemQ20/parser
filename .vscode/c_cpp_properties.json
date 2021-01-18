@@ -1,0 +1,29 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "defines": [],
+            "compilerPath": "/usr/bin/g++-10",
+            "cStandard": "c11",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "${default}"
+        },
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:\\benchmark\\include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:\\msys64\\mingw64\\bin\\gcc.exe",
+            "cStandard": "c11",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "gcc-x64",
+            "configurationProvider": "go2sh.cmake-integration"
+        }
+    ],
+    "version": 4
+}
