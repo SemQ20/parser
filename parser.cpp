@@ -116,6 +116,7 @@ std::string detect_param_wot_pos(std::string& _str, std::size_t position){
    return param;
 }
 
+// Not work
 std::string& swap_str(std::string& _str, std::string& lvalue, std::size_t lvalue_pos,
                                          std::string& rvalue, std::size_t rvalue_pos){
     std::size_t i = 0;
@@ -138,10 +139,7 @@ std::string& swap_str(std::string& _str, std::string& lvalue, std::size_t lvalue
     return _str;
 }
 
-std::string string_sort(std::string& _ptr){
-    std::string buffer;
-    std::string buffer1;
-    std::string result;
+std::string& string_sort(std::string& _ptr){
     std::string tmp;
     std::pair<std::size_t, std::string> lp{0,""};
     std::pair<std::size_t, std::string> rp{_ptr.size(),""};
@@ -149,21 +147,16 @@ std::string string_sort(std::string& _ptr){
     auto[_mid_pos, _mid]     = detect_param(_ptr, (std::size_t)_ptr.size()/2);
     std::size_t left_border  = 0;
     std::size_t right_border = _ptr.size() - 1;
-    while(!(_ptr.size() == buffer.size())){
+    while(!(left_border == _mid_pos) && !(right_border == _mid_pos)){
+        auto[_mid_pos, _mid]     = detect_param(_ptr, (std::size_t)_ptr.size()/2);
         lp = detect_param(_ptr, left_border);
         rp = detect_param(_ptr, right_border);
-        /* need swap strings function */
     if(string_lesser(_mid, lp.second) == _mid){ //if _mid < left_param
-        buffer    += _mid;
-        tmp        = _mid;
-        _mid       = lp.second;
-        //lp.second  = tmp;
+        swap_str(_ptr, lp.second, lp.first, _mid, _mid_pos);
     }
     if(string_greater(_mid, rp.second) == _mid){
-        buffer1   += _mid;
-        tmp        = _mid;
-        _mid       = rp.second;
-        //rp.second  = tmp;
+        swap_str(_ptr, _mid, _mid_pos, rp.second, rp.first);
+        //swap_str(_ptr, rp.second, rp.first, _mid, _mid_pos);
     }
     if(left_border <= _mid_pos){
         left_border  += lp.second.size();
@@ -172,8 +165,7 @@ std::string string_sort(std::string& _ptr){
         right_border -= rp.second.size();
     }
     }
-    result = buffer + buffer1;
-    return result;
+    return _ptr;
 }
 
 std::pair<std::string, std::string>

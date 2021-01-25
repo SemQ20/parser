@@ -15,7 +15,7 @@ std::string                         detect_param_wot_pos  (std::string& _str, st
 bool                                has_not_true_param    (char ch);
 bool                                has_param             (char ch);
 //uint32_t                            number_params         (std::string& params);
-std::string                         string_sort           (std::string& _ptr);
+std::string&                        string_sort           (std::string& _ptr);
 std::string                         get_first_param_in_str(std::string& _ptr);
 char                                correct_param         (std::string& _ptr, int position);
 std::string                         string_lesser         (std::string& ch_a, std::string& ch_b);

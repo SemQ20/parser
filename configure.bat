@@ -1,0 +1,1 @@
+g++ -g main.cpp parser.cpp -std=c++17 && a.exe
