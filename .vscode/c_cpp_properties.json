@@ -11,7 +11,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:\\benchmark\\include"
+                "C:\\msys64\\mingw64\\include"
             ],
             "defines": [
                 "_DEBUG",

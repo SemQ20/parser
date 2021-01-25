@@ -28,34 +28,46 @@ bool has_param(char ch){
     return false;
 }
 
-/* ????? */
-/* uint32_t number_params(std::string& params){
-    std::string tmp_str;
-    uint32_t    num_params;
-    for(size_t i = 0; i <= params.size(); ++i){
-        if(has_param(params[i])){
-            int tmp = 0;
-            tmp_str += params[i];
-                num_params += 1;
-            if(atoi(&params[i + 1])){
-                tmp = i + 1;
-                while(atoi(&params[tmp]) && (tmp + 1 <= params.size())){
-                    tmp_str += params[tmp];
-                    tmp++;
-                } // take first param
-                if(tmp_str[0] == params[tmp]){
-                    size_t k = 0;
-                    while(tmp_str[k] == params[tmp]){
-                        k++;
-                        tmp++;
-                    }
-                    tmp_str = "";
-                }
+std::string string_lesser(std::string& ch_a, std::string& ch_b){
+    return ch_a > ch_b ? ch_b : ch_a;
+}
+
+std::string string_greater(std::string& ch_a, std::string& ch_b){
+    return ch_a > ch_b ? ch_a : ch_b;
+}
+
+char correct_param(std::string& _ptr, int position){
+    if(_ptr[position] == 'x'){
+        return _ptr[position];
+    }else{
+        _ptr[position] = 'x';
+        return _ptr[position];
+    }
+}
+
+std::pair<std::size_t, std::string>
+detect_param(std::string& _str, std::size_t position){
+    std::size_t tmp = position + 1;
+    std::string param;
+    if(has_param(_str[position])){
+        param += _str[position];
+        if(atoi(&_str[tmp])){
+            while(atoi(&_str[tmp])){
+                param += _str[tmp];
+                tmp++;
             }
         }
+   }
+   if(!has_param(_str[position])) {
+        tmp = position;
+        while(atoi(&_str[tmp])){
+            tmp--;
+        }
+       return detect_param(_str, tmp);
     }
-    return num_params;
-} */
+
+   return std::make_pair(tmp - 1, param);
+}
 
 std::string get_first_param_in_str(std::string& _ptr){
     std::string tmp_str;
@@ -81,32 +93,7 @@ std::string get_first_param_in_str(std::string& _ptr){
     return tmp_str;
 }
 
-char char_lesser(char ch_a, char ch_b){
-    return ch_a > ch_b ? ch_b : ch_a;
-}
-
-char char_greater(char ch_a, char ch_b){
-    return ch_a > ch_b ? ch_a : ch_b;
-}
-
-char correct_param(std::string& _ptr, int position){
-    if(_ptr[position] == 'x'){
-        return _ptr[position];
-    }else{
-        _ptr[position] = 'x';
-        return _ptr[position];
-    }
-}
-
-std::string& string_sort(std::string& _ptr){
-    size_t expr_size = _ptr.size();
-    std::string _mid = &_ptr[expr_size / 2];
-
-    return _ptr;
-}
-
-std::pair<std::size_t, std::string>
-detect_param(std::string& _str, std::size_t position){
+std::string detect_param_wot_pos(std::string& _str, std::size_t position){
     std::size_t tmp = position + 1;
     std::string param;
     if(has_param(_str[position])){
@@ -123,10 +110,70 @@ detect_param(std::string& _str, std::size_t position){
         while(atoi(&_str[tmp])){
             tmp--;
         }
-       return detect_param(_str, tmp);
+       return detect_param_wot_pos(_str, tmp);
     }
 
-   return std::make_pair(position, param);
+   return param;
+}
+
+std::string& swap_str(std::string& _str, std::string& lvalue, std::size_t lvalue_pos,
+                                         std::string& rvalue, std::size_t rvalue_pos){
+    std::size_t i = 0;
+    std::string tmp = lvalue;
+    std::size_t offset_lvalue = lvalue_pos + (std::size_t)lvalue.size() - 1;
+    std::size_t offset_rvalue = rvalue_pos + (std::size_t)rvalue.size() - 1;
+    while (lvalue_pos <= offset_lvalue)
+    {
+        _str[lvalue_pos] = rvalue[i];
+        ++lvalue_pos;
+        ++i;
+    }
+    i = 0;
+    while (rvalue_pos <= offset_rvalue)
+    {
+        _str[rvalue_pos] = tmp[i];
+        rvalue_pos++;
+        i++;
+    }
+    return _str;
+}
+
+std::string string_sort(std::string& _ptr){
+    std::string buffer;
+    std::string buffer1;
+    std::string result;
+    std::string tmp;
+    std::pair<std::size_t, std::string> lp{0,""};
+    std::pair<std::size_t, std::string> rp{_ptr.size(),""};
+    //std::string _mid     = detect_param_wot_pos(_ptr, _ptr.size()/2);
+    auto[_mid_pos, _mid]     = detect_param(_ptr, (std::size_t)_ptr.size()/2);
+    std::size_t left_border  = 0;
+    std::size_t right_border = _ptr.size() - 1;
+    while(!(_ptr.size() == buffer.size())){
+        lp = detect_param(_ptr, left_border);
+        rp = detect_param(_ptr, right_border);
+        /* need swap strings function */
+    if(string_lesser(_mid, lp.second) == _mid){ //if _mid < left_param
+        buffer    += _mid;
+        tmp        = _mid;
+        _mid       = lp.second;
+        //lp.second  = tmp;
+    }
+    if(string_greater(_mid, rp.second) == _mid){
+        buffer1   += _mid;
+        tmp        = _mid;
+        _mid       = rp.second;
+        //rp.second  = tmp;
+    }
+    if(left_border <= _mid_pos){
+        left_border  += lp.second.size();
+    }
+    if(right_border >= _mid_pos){
+        right_border -= rp.second.size();
+    }
+    }
+    result = buffer + buffer1;
+    return result;
 }
 
 std::pair<std::string, std::string>

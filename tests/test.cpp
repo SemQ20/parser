@@ -86,7 +86,6 @@ BOOST_AUTO_TEST_CASE(has_param_test_1){
 }
 /* *********************************************************************************************************** */
 #ifdef DETECT_PARAMS_TESTS
-
 BOOST_AUTO_TEST_CASE(detect_params_test_1){
     std::string test_symbol = "!x12345+!x2";
     std::pair<std::string, std::string> p{"x12345x2", "!+!"};
@@ -116,10 +115,6 @@ BOOST_AUTO_TEST_CASE(detect_params_test_5){
     BOOST_CHECK(detect_params(test_symbol) == p);
 }
 
-#endif
-
-/* *********************************************************************************************************** */
-
 BOOST_AUTO_TEST_CASE(number_params_test_1){
     std::string test_symbol = "x1x2x4213x3x4";
     std::pair<std::size_t, std::string> p{4, "x4213"};
@@ -127,6 +122,9 @@ BOOST_AUTO_TEST_CASE(number_params_test_1){
     std::cout << pos << " " << param << '\n';
     BOOST_CHECK(detect_param(test_symbol, 5) == p);
 }
+#endif
+
+/* *********************************************************************************************************** */
 
 BOOST_AUTO_TEST_CASE(get_first_param_in_str_test_1){
     std::string test_symbol = "x1x2x4x3x4";
@@ -138,4 +136,41 @@ BOOST_AUTO_TEST_CASE(get_first_param_in_str_test_2){
     std::string test_symbol = "x12345x2";
     //std::cout << number_params(test_symbol) << '\n';
     BOOST_CHECK(get_first_param_in_str(test_symbol) == "x12345");
+}
+
+BOOST_AUTO_TEST_CASE(detect_param_wot_pos_test_n1){
+    std::string test_symbol = "x12345x2";
+    BOOST_CHECK(detect_param_wot_pos(test_symbol, test_symbol.size() - 1) == "x2");
+}
+
+BOOST_AUTO_TEST_CASE(detect_param_wot_pos_test_n2){
+    std::string test_symbol = "x12345x2";
+    BOOST_CHECK(detect_param_wot_pos(test_symbol, 0) == "x12345");
+}
+
+BOOST_AUTO_TEST_CASE(string_lesser_test_1){
+    std::string x1 = "x123";
+    std::string x2 = "x111";
+    BOOST_CHECK(string_lesser(x1, x2) == x2);
+}
+
+BOOST_AUTO_TEST_CASE(string_greater_test_1){
+    std::string x1 = "x123";
+    std::string x2 = "x111";
+    BOOST_CHECK(string_greater(x1, x2) == x1);
+}
+
+/* BOOST_AUTO_TEST_CASE(string_sort_test_1){
+    std::string x1 = "x1x3x4x1x2x6";
+    std::string x2 = "x1x1x2x3x4x6";
+    std::cout << string_sort(x1) << '\n';
+    BOOST_CHECK(string_sort(x1) == x2);
+} */
+
+BOOST_AUTO_TEST_CASE(swap_str_test_1){
+    std::string x1 = "x1x3x4x1x2x6";
+    std::string sw_str = "x6x3x4x1x2x1";
+    std::string x2 = "x1";
+    std::string x3 = "x6";
+    BOOST_CHECK(swap_str(x1, x2, 0, x3, 10) == sw_str);
 }
