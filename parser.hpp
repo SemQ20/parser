@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 #include <cassert>
 
 std::string                         parse_logic_expr      (std::string& expr);
@@ -22,5 +21,5 @@ std::string                         string_lesser         (std::string& ch_a, st
 std::string                         string_greater        (std::string& ch_a, std::string& ch_b);
 std::string&                        swap_str              (std::string& _str, std::string& lvalue, std::size_t lvalue_pos,
                                                                               std::string& rvalue, std::size_t rvalue_pos);
-
+bool                                is_sorted_str         (std::string& _str);
 #endif // __PARSER_HPP

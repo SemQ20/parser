@@ -1,4 +1,5 @@
 #include "parser.hpp"
+/* TODO: Add comments */
 
 bool has_symbol(char ch){
     if(ch == '!' || ch == '~' || ch == '+' || ch == '*' || ch == '(' || ch == ')'){
@@ -65,8 +66,9 @@ detect_param(std::string& _str, std::size_t position){
         }
        return detect_param(_str, tmp);
     }
-
-   return std::make_pair(tmp - 1, param);
+   /* TODO: Why 2? It works*/
+   /* -1 for last cycle for detect param within has_param(position) */
+   return std::make_pair(tmp - 2, param);
 }
 
 std::string get_first_param_in_str(std::string& _ptr){
@@ -116,12 +118,11 @@ std::string detect_param_wot_pos(std::string& _str, std::size_t position){
    return param;
 }
 
-// Not work
 std::string& swap_str(std::string& _str, std::string& lvalue, std::size_t lvalue_pos,
                                          std::string& rvalue, std::size_t rvalue_pos){
     std::size_t i = 0;
     std::string tmp = lvalue;
-    std::size_t offset_lvalue = lvalue_pos + (std::size_t)lvalue.size() - 1;
+    std::size_t offset_lvalue = lvalue_pos + (std::size_t)lvalue.size() - 1; 
     std::size_t offset_rvalue = rvalue_pos + (std::size_t)rvalue.size() - 1;
     while (lvalue_pos <= offset_lvalue)
     {
@@ -139,11 +140,11 @@ std::string& swap_str(std::string& _str, std::string& lvalue, std::size_t lvalue
     return _str;
 }
 
+/* FIXME: Test variant with UB. Need Recursion for complete algorithm */
 std::string& string_sort(std::string& _ptr){
     std::string tmp;
     std::pair<std::size_t, std::string> lp{0,""};
     std::pair<std::size_t, std::string> rp{_ptr.size(),""};
-    //std::string _mid     = detect_param_wot_pos(_ptr, _ptr.size()/2);
     auto[_mid_pos, _mid]     = detect_param(_ptr, (std::size_t)_ptr.size()/2);
     std::size_t left_border  = 0;
     std::size_t right_border = _ptr.size() - 1;
@@ -151,19 +152,14 @@ std::string& string_sort(std::string& _ptr){
         auto[_mid_pos, _mid]     = detect_param(_ptr, (std::size_t)_ptr.size()/2);
         lp = detect_param(_ptr, left_border);
         rp = detect_param(_ptr, right_border);
-    if(string_lesser(_mid, lp.second) == _mid){ //if _mid < left_param
+    if(_mid < lp.second){ //if _mid < left_param
         swap_str(_ptr, lp.second, lp.first, _mid, _mid_pos);
     }
-    if(string_greater(_mid, rp.second) == _mid){
+    if(_mid > rp.second){ //if _mid > left_param
         swap_str(_ptr, _mid, _mid_pos, rp.second, rp.first);
-        //swap_str(_ptr, rp.second, rp.first, _mid, _mid_pos);
     }
-    if(left_border <= _mid_pos){
-        left_border  += lp.second.size();
-    }
-    if(right_border >= _mid_pos){
-        right_border -= rp.second.size();
-    }
+        left_border  += lp.second.size(); // left to middle position
+        right_border -= rp.second.size(); // right to middle position
     }
     return _ptr;
 }
@@ -202,3 +198,20 @@ std::string parse_logic_expr(std::string& expr){
     return params;
 }
 
+bool is_sorted_str(std::string& _str){
+    std::size_t begin = 0;
+    std::size_t i     = 0;
+    std::pair<std::size_t, std::string> lp{0,""};
+    std::pair<std::size_t, std::string> rp{_str.size(),""};
+    std::size_t right_border = _str.size();
+    while(begin <= _str.size() - 3){ // FIXME:
+        lp = detect_param(_str, begin);
+        rp = detect_param(_str, begin + (std::size_t)lp.second.size());
+        if(lp.second < rp.second || lp.second == rp.second){
+            begin += lp.second.size();
+        }else{
+            return false;
+        }
+    }
+    return true;
+}

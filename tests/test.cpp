@@ -160,16 +160,10 @@ BOOST_AUTO_TEST_CASE(string_greater_test_1){
     BOOST_CHECK(string_greater(x1, x2) == x1);
 }
 
-/* BOOST_AUTO_TEST_CASE(string_sort_test_1){
-    std::string x1 = "x1x3x4x1x2x6";
-    std::string x2 = "x1x1x2x3x4x6";
-    std::cout << string_sort(x1) << '\n';
-    BOOST_CHECK(string_sort(x1) == x2);
-} */
 
 BOOST_AUTO_TEST_CASE(swap_str_test_1){
     std::string x1 = "x1x3x4x1x2x6";
-    std::string sw_str = "x6x3x4x1x2x1";
+    std::string sw_str = "x1x3x4x1x2x6";
     std::size_t left_border  = 0;
     std::size_t right_border = x1.size() - 1;
     std::pair<std::size_t, std::string> lp{0,""};
@@ -177,7 +171,21 @@ BOOST_AUTO_TEST_CASE(swap_str_test_1){
     lp = detect_param(x1, left_border);
     rp = detect_param(x1, right_border);
     auto[_mid_pos, _mid]  = detect_param(x1, (std::size_t)x1.size()/2);
-    std::string x2 = "x1";
-    std::string x3 = "x6";
-    BOOST_CHECK(swap_str(x1, _mid, _mid_pos, rp.second, rp.first) == sw_str);
+    BOOST_CHECK(swap_str(x1, _mid, _mid_pos, lp.second, lp.first) == sw_str);
+}
+
+/* FIXME: create recursion */
+BOOST_AUTO_TEST_CASE(string_sort_test_1){
+    std::string x1 = "x1x3x4x1x2x6";
+    std::string x2 = "x1x1x2x3x4x6";
+    string_sort(x1);
+    string_sort(x1);
+    BOOST_CHECK(x1 == x2);
+}
+
+BOOST_AUTO_TEST_CASE(is_sorted_string_test_1){
+    std::string x1 = "x1x3x4x1x2x6";
+    std::string x2 = "x1x1x2x3x4x6";
+    BOOST_CHECK(is_sorted_str(x1) == false);
+    BOOST_CHECK(is_sorted_str(x2) == true);
 }
