@@ -7,7 +7,9 @@
 #include <cmath>
 
 //#define DETECT_PARAMS_TESTS
+//#define HAS_SYMBOL_TESTS
 
+#ifdef HAS_SYMBOL_TESTS
 BOOST_AUTO_TEST_CASE(parser_output_test_n1){
     std::string logic_expr = "x1+!x2+!(x3*x4)+(x3*!x1)+x4";
     BOOST_CHECK(parse_logic_expr(logic_expr) == "x1x2x3x4x3x1x4");
@@ -56,6 +58,7 @@ BOOST_AUTO_TEST_CASE(has_symbol_test_8){
 BOOST_AUTO_TEST_CASE(has_symbol_test_9){
     BOOST_CHECK(has_symbol('%') == false);
 }
+#endif
 /* *********************************************************************************************************** */
 
 /* ******************************************* Tests for has_logic_not *************************************** */
@@ -150,7 +153,7 @@ BOOST_AUTO_TEST_CASE(detect_param_wot_pos_test_n2){
 
 BOOST_AUTO_TEST_CASE(string_lesser_test_1){
     std::string x1 = "x123";
-    std::string x2 = "x111";
+    std::string x2 = "x1";
     BOOST_CHECK(string_lesser(x1, x2) == x2);
 }
 
@@ -174,13 +177,10 @@ BOOST_AUTO_TEST_CASE(swap_str_test_1){
     BOOST_CHECK(swap_str(x1, _mid, _mid_pos, lp.second, lp.first) == sw_str);
 }
 
-/* FIXME: create recursion */
-BOOST_AUTO_TEST_CASE(string_sort_test_1){
-    std::string x1 = "x1x3x4x1x2x6";
-    std::string x2 = "x1x1x2x3x4x6";
-    string_sort(x1);
-    string_sort(x1);
-    BOOST_CHECK(x1 == x2);
+BOOST_AUTO_TEST_CASE(most_long_param_test_1){
+    std::string x1 = "x123x3x4x1x2x6";
+    most_long_param_str(x1);
+    BOOST_CHECK(most_long_param == 4);
 }
 
 BOOST_AUTO_TEST_CASE(is_sorted_string_test_1){
@@ -188,4 +188,23 @@ BOOST_AUTO_TEST_CASE(is_sorted_string_test_1){
     std::string x2 = "x1x1x2x3x4x6";
     BOOST_CHECK(is_sorted_str(x1) == false);
     BOOST_CHECK(is_sorted_str(x2) == true);
+}
+
+/* TODO: need add additional tests */
+/* FIXME: CRITICAL POINT */
+/* BOOST_AUTO_TEST_CASE(string_sort_test_1){
+    std::string x1 = "x1x3x4x1x2x6";
+    std::string x2 = "x1x1x2x3x4x6";
+    most_long_param_str(x1);
+    string_sort(x1);
+    BOOST_CHECK(x1 == x2);
+} */
+
+BOOST_AUTO_TEST_CASE(string_sort_test_2){
+    std::string x1 = "x123x3x4x1x2x6x7x123x561x2";
+    std::string x2 = "x1x2x2x3x4x6x7x123x123x561";
+    most_long_param_str(x1);
+    std::cout << "string_sort_test2, most_long_param: "<< most_long_param << '\n';
+    string_sort(x1);
+    BOOST_CHECK(x1 == x2);
 }

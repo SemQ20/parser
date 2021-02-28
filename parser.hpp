@@ -5,6 +5,8 @@
 #include <string>
 #include <cassert>
 
+extern std::size_t most_long_param;
+
 std::string                         parse_logic_expr      (std::string& expr);
 bool                                has_symbol            (char ch);
 bool                                has_logic_not         (char ch);
@@ -22,4 +24,6 @@ std::string                         string_greater        (std::string& ch_a, st
 std::string&                        swap_str              (std::string& _str, std::string& lvalue, std::size_t lvalue_pos,
                                                                               std::string& rvalue, std::size_t rvalue_pos);
 bool                                is_sorted_str         (std::string& _str);
+void                                most_long_param_str   (std::string& expr);
+
 #endif // __PARSER_HPP
